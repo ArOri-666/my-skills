@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>四级汉译英 · 批改报告</title>
+<style>
+:root{
+  --paper:#f4efe4; --card:#fffdf7; --ink:#2b2723; --ink-soft:#6b6357; --line:#e3dac6;
+  --red:#c0392b; --red-soft:#fbe9e6;
+  --green:#1f6f5c; --green-soft:#e6f2ee;
+  --amber:#b9770e; --amber-soft:#fdf1dc;
+  --purple:#6b4f9e; --purple-soft:#efeaf8;
+  --blue:#2d6f9e; --blue-soft:#e6f0f7;
+  --radius:16px;
+  --shadow:0 1px 2px rgba(60,45,20,.06), 0 8px 24px rgba(60,45,20,.07);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+  background:
+    radial-gradient(circle at 20% 0%, #fffaf0 0%, transparent 55%),
+    repeating-linear-gradient(0deg, transparent, transparent 31px, rgba(160,140,100,.055) 31px, rgba(160,140,100,.055) 32px),
+    var(--paper);
+  color:var(--ink); line-height:1.7; padding-bottom:80px;
+}
+.en{font-family:Georgia,"Iowan Old Style","Times New Roman",serif}
+
+.stick{
+  position:sticky;top:0;z-index:40;
+  background:rgba(244,239,228,.94);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+  box-shadow:0 1px 0 rgba(60,45,20,.03), 0 4px 16px rgba(60,45,20,.05);
+}
+.head-in{max-width:1080px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:16px}
+.brand{display:flex;align-items:center;gap:9px;font-weight:700;font-size:13.5px;letter-spacing:.02em;flex:none;height:52px}
+.brand .dot{width:9px;height:9px;border-radius:50%;background:var(--red);box-shadow:0 0 0 4px var(--red-soft)}
+.head-meta{flex:none;font-size:11.5px;color:var(--ink-soft);display:flex;gap:14px;margin-left:auto}
+.head-meta span{white-space:nowrap}
+/* 顶栏空间优先给标签：考试信息只在超宽屏显示 */
+.head-meta span:first-child{display:none}
+@media(min-width:1280px){
+  .head-meta span:first-child{display:inline}
+}
+
+.filt-in{
+  max-width:1080px;margin:0 auto;padding:0 20px 9px;
+  display:flex;align-items:center;gap:9px;
+}
+.filt-in .lbl{
+  flex:none;font-size:11px;letter-spacing:.09em;color:#b3a68c;font-weight:600;text-transform:uppercase;
+  padding-right:2px;
+}
+.filt-in .chips{flex-wrap:nowrap;gap:6px;margin:0;overflow-x:auto;scrollbar-width:none;padding:1px 0}
+.filt-in .chips::-webkit-scrollbar{display:none}
+.filt-in .chip{font-size:12px;padding:4px 11px;flex:none;background:#fffdf7}
+.filt-in .chip .n{font-size:12px}
+.chip.all{color:var(--ink-soft);border-style:dashed}
+.chip.all.on{background:var(--ink);border-color:var(--ink);color:#fff;border-style:solid}
+.chip.all.on .n{color:#fff}
+.filt-hint{flex:none;font-size:11px;color:#b3a68c;margin-left:2px;white-space:nowrap}
+@media(max-width:900px){.filt-hint{display:none}}
+
+@media(max-width:1400px){
+  .head-meta span:nth-child(2){display:none}
+}
+@media(max-width:1240px){
+  .tab{padding:9px 11px 11px;font-size:13px}
+}
+@media(max-width:1120px){
+  .brand span:last-child{display:none}
+  .tab{padding:9px 9px 11px;font-size:12.5px}
+  .tab .cnt{margin-left:3px;padding:0 5px}
+}
+@media(max-width:860px){
+  .head-in{padding:0 12px;gap:10px}
+  .head-meta span:nth-child(1),
+  .head-meta span:nth-child(2){display:none}
+  .head-meta{gap:8px;font-size:11px}
+  .brand span:last-child{display:none}
+  .brand{height:44px}
+  .filt-in{padding:0 12px 8px;gap:6px}
+  .filt-in .lbl{display:none}
+  .filt-in .chips{flex-wrap:wrap;overflow:visible}
+  .filt-in .chip{font-size:11.5px;padding:3px 9px}
+}
+.wrap{max-width:1080px;margin:0 auto;padding:26px 20px 0}
+
+.overview{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:26px 28px;display:grid;grid-template-columns:150px 1fr;
+  gap:28px;align-items:center;position:relative;overflow:hidden;
+}
+.overview::after{
+  content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;
+  background:radial-gradient(circle, rgba(192,57,43,.07), transparent 70%);
+}
+.score-ring{
+  width:132px;height:132px;border-radius:50%;position:relative;
+  background:conic-gradient(var(--red) 0%, #ece4d3 0);
+}
+.score-ring::before{content:"";position:absolute;inset:9px;background:var(--card);border-radius:50%}
+.score-ring .num{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:2}
+.score-ring .num b{font-size:38px;line-height:1;letter-spacing:-.03em;font-family:Georgia,serif}
+.score-ring .num i{font-style:normal;font-size:12px;color:var(--ink-soft);margin-top:5px;letter-spacing:.06em}
+
+.ov-main h1{font-size:21px;line-height:1.4;letter-spacing:-.01em}
+.ov-main h1 small{font-weight:500;font-size:13px;color:var(--ink-soft);display:block;margin-top:5px;letter-spacing:0}
+.verdict{
+  margin-top:14px;font-size:14.5px;color:#41392f;
+  background:linear-gradient(90deg, var(--red-soft), rgba(251,233,230,.25));
+  border-left:3px solid var(--red);padding:11px 15px;border-radius:0 10px 10px 0;
+}
+.verdict b{color:var(--red)}
+.alt-score{
+  margin-top:10px;font-size:13.5px;color:#1d4b40;
+  background:linear-gradient(90deg, var(--green-soft), rgba(230,242,238,.3));
+  border-left:3px solid var(--green);padding:10px 15px;border-radius:0 10px 10px 0;
+}
+.alt-score b{color:var(--green)}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{
+  display:inline-flex;align-items:center;gap:7px;font-size:12.5px;padding:5px 12px;border-radius:999px;
+  cursor:pointer;border:1px solid var(--line);user-select:none;transition:.18s;background:#fff;color:var(--ink-soft);
+}
+.chip .n{font-weight:700;font-family:Georgia,serif;font-size:13px}
+.chip:hover{transform:translateY(-1px)}
+.chip[data-t="grammar"].on{background:var(--red-soft);border-color:#eec3bd;color:var(--red)}
+.chip[data-t="spelling"].on{background:var(--amber-soft);border-color:#f0d8ab;color:var(--amber)}
+.chip[data-t="collocation"].on{background:var(--purple-soft);border-color:#d8ccee;color:var(--purple)}
+.chip[data-t="word"].on{background:var(--green-soft);border-color:#c3e0d6;color:var(--green)}
+.chip[data-t="logic"].on{background:var(--blue-soft);border-color:#c3dbea;color:var(--blue)}
+.chip .sw{width:7px;height:7px;border-radius:2px}
+.chip[data-t="grammar"] .sw{background:var(--red)}
+.chip[data-t="spelling"] .sw{background:var(--amber)}
+.chip[data-t="collocation"] .sw{background:var(--purple)}
+.chip[data-t="word"] .sw{background:var(--green)}
+.chip[data-t="logic"] .sw{background:var(--blue)}
+.chip:not(.on) .sw{opacity:.45}
+
+.tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;flex:1;min-width:0}
+.tabs::-webkit-scrollbar{display:none}
+.tab{
+  appearance:none;background:none;border:none;font:inherit;font-size:13.5px;color:var(--ink-soft);
+  padding:9px 15px 11px;cursor:pointer;position:relative;white-space:nowrap;border-radius:9px 9px 0 0;
+  transition:.15s;
+}
+.tab:hover{background:rgba(255,255,255,.6);color:var(--ink)}
+.tab.on{color:var(--red);font-weight:600}
+.tab.on::after{content:"";position:absolute;left:12px;right:12px;bottom:0;height:2.5px;background:var(--red);border-radius:2px}
+.tab .cnt{
+  display:inline-block;font-family:Georgia,serif;font-size:11px;font-weight:700;margin-left:5px;
+  background:#ebe3d1;color:#8b7f6a;border-radius:999px;padding:0 6px;vertical-align:1px;
+}
+.tab.on .cnt{background:var(--red-soft);color:var(--red)}
+.panel{display:none;padding-top:22px}
+.panel.on{display:block;animation:fade .3s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+.transcript{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:20px;overflow:hidden}
+.transcript summary{padding:14px 20px;cursor:pointer;font-size:13.5px;font-weight:600;display:flex;align-items:center;gap:9px;list-style:none}
+.transcript summary::-webkit-details-marker{display:none}
+.transcript summary::before{content:"›";font-size:17px;color:var(--red);transition:.2s;display:inline-block}
+.transcript[open] summary::before{transform:rotate(90deg)}
+.transcript summary .hint{font-weight:400;color:var(--ink-soft);font-size:12px;margin-left:auto}
+.transcript .body{padding:0 20px 18px;border-top:1px dashed var(--line)}
+.transcript ol{margin-top:14px;padding-left:0;list-style:none}
+.transcript li{font-family:Georgia,serif;font-size:15px;color:#4a423a;line-height:1.95;border-bottom:1px solid rgba(227,218,198,.6);padding:2px 0}
+.transcript li:last-child{border-bottom:none}
+.transcript li .ln{color:#b9ac93;font-size:11px;font-family:system-ui;margin-right:8px}
+.strike{text-decoration:line-through;text-decoration-color:var(--red);opacity:.55}
+
+.sent{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:18px;overflow:hidden;transition:border-color .2s;scroll-margin-top:110px}
+.sent:hover{border-color:#d5c9ae}
+.sent-head{display:flex;align-items:flex-start;gap:14px;padding:18px 22px 0}
+.sent-no{flex:none;width:30px;height:30px;border-radius:9px;background:#f1ead9;color:#9c8a68;display:grid;place-items:center;font-family:Georgia,serif;font-size:13.5px;font-weight:700;margin-top:2px}
+.zh{font-size:15px;line-height:1.75;color:#5f5648;padding-top:3px}
+.en-block{
+  margin:12px 22px 0 66px;padding:14px 0 16px 18px;border-left:3px solid var(--red);
+  font-size:17.5px;line-height:2.05;color:#2f2a24;
+}
+.mark{cursor:pointer;border-radius:3px;padding:1px;text-decoration:underline wavy;text-decoration-thickness:1.2px;text-underline-offset:4px;transition:background .15s;position:relative}
+.mark.t-grammar{text-decoration-color:var(--red);background:rgba(192,57,43,.07)}
+.mark.t-spelling{text-decoration-color:var(--amber);background:rgba(185,119,14,.08)}
+.mark.t-collocation{text-decoration-color:var(--purple);background:rgba(107,79,158,.08)}
+.mark.t-word{text-decoration-color:var(--green);background:rgba(31,111,92,.07)}
+.mark.t-logic{text-decoration-color:var(--blue);background:rgba(45,111,158,.08)}
+.mark:hover{filter:saturate(1.4)}
+.mark.active{box-shadow:0 0 0 2px var(--ink), 0 0 0 5px rgba(43,39,35,.06);background:#fffbe8}
+.mark .idx{
+  font-family:system-ui;font-size:9.5px;position:relative;top:-0.42em;line-height:1;
+  font-weight:700;margin-left:1px;opacity:.9;white-space:nowrap;text-decoration:none;display:inline-block;
+}
+.mark.seen .idx{opacity:.35}
+body.dim .mark:not(.type-on){opacity:.22;text-decoration-color:#cfc6b4;background:transparent}
+
+.sent-foot{display:flex;align-items:center;gap:10px;margin:6px 22px 0 66px;padding:10px 0 14px;border-top:1px dashed var(--line)}
+.ref-btn,.simp-btn{
+  appearance:none;border:1px solid var(--line);background:#fff;color:var(--ink-soft);
+  font:inherit;font-size:12.5px;padding:5px 12px;border-radius:999px;cursor:pointer;transition:.18s;
+}
+.ref-btn:hover{border-color:var(--green);color:var(--green);background:var(--green-soft)}
+.simp-btn:hover{border-color:var(--amber);color:var(--amber);background:var(--amber-soft)}
+.ref-text,.simp-text{
+  display:none;margin:0 22px 16px 66px;padding:12px 16px;border-radius:10px;
+  font-family:Georgia,serif;font-size:15px;line-height:1.85;
+}
+.ref-text{background:var(--green-soft);border-left:3px solid var(--green);color:#1d4b40}
+.simp-text{background:var(--amber-soft);border-left:3px solid var(--amber);color:#5a3f10;margin-bottom:10px}
+.ref-text.show,.simp-text.show{display:block;animation:fade .25s}
+.ref-text .lbl,.simp-text .lbl{display:block;font-family:system-ui;font-size:11px;letter-spacing:.08em;margin-bottom:5px;text-transform:uppercase}
+.ref-text .lbl{color:#3d7a6b}
+.simp-text .lbl{color:#8a5f14}
+.simp-text .why{display:block;font-family:system-ui;font-size:12px;color:#7a5c2e;margin-top:8px;line-height:1.65}
+
+.list-toolbar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;align-items:center}
+.mini{appearance:none;font:inherit;font-size:12.5px;padding:5px 12px;border-radius:999px;cursor:pointer;background:#fff;border:1px solid var(--line);color:var(--ink-soft);transition:.16s}
+.mini:hover{border-color:#c9bda4}
+.mini.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.table-wrap{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:auto}
+table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:720px}
+thead th{text-align:left;padding:13px 16px;font-size:11.5px;letter-spacing:.07em;text-transform:uppercase;color:#9b8f7a;font-weight:600;background:#faf5e9;border-bottom:1px solid var(--line);white-space:nowrap}
+tbody td{padding:12px 16px;border-bottom:1px solid rgba(227,218,198,.7);vertical-align:top}
+tbody tr{cursor:pointer;transition:background .12s}
+tbody tr:hover{background:#fbf7ec}
+tbody tr:last-child td{border-bottom:none}
+td.num{color:#b3a68c;font-family:Georgia,serif;width:38px}
+.badge{display:inline-block;font-size:11px;padding:2px 9px;border-radius:999px;white-space:nowrap;font-weight:600}
+.b-grammar{background:var(--red-soft);color:var(--red)}
+.b-spelling{background:var(--amber-soft);color:var(--amber)}
+.b-collocation{background:var(--purple-soft);color:var(--purple)}
+.b-word{background:var(--green-soft);color:var(--green)}
+.b-logic{background:var(--blue-soft);color:var(--blue)}
+.bad{color:#8a3d34;font-family:Georgia,serif;text-decoration:line-through;text-decoration-color:rgba(192,57,43,.4)}
+.good{color:var(--green);font-family:Georgia,serif}
+tbody tr.hide{display:none}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:860px){.grid2{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 24px}
+.card h3{font-size:15px;margin-bottom:4px}
+.card .sub{font-size:12.5px;color:var(--ink-soft);margin-bottom:16px}
+.score-table{width:100%;border-collapse:collapse;font-size:13px;min-width:0}
+.score-table td{padding:9px 10px;border-bottom:1px solid rgba(227,218,198,.7);vertical-align:top}
+.score-table tr:last-child td{border-bottom:none}
+.score-table td:first-child{font-family:Georgia,serif;font-weight:700;width:52px;color:#8b7f6a;text-align:center}
+.score-table tr.here{background:linear-gradient(90deg,#fff4f1,#fffcfa);box-shadow:inset 3px 0 0 var(--red)}
+.score-table tr.here td:first-child{color:var(--red)}
+.score-table tr.here td:last-child::after{content:"← 你的得分落点";display:block;font-size:11px;color:var(--red);font-weight:700;margin-top:6px}
+.bars{margin-top:6px}
+.bar-row{display:grid;grid-template-columns:78px 1fr 46px;gap:12px;align-items:center;margin-bottom:13px;font-size:13px}
+.bar-row .track{height:9px;background:#f0eadb;border-radius:99px;overflow:hidden}
+.bar-row .fill{height:100%;border-radius:99px;width:0;transition:width 1s cubic-bezier(.2,.8,.2,1)}
+.bar-row .v{text-align:right;color:var(--ink-soft);font-size:12px;font-family:Georgia,serif}
+.kv{display:flex;justify-content:space-between;font-size:13px;padding:9px 0;border-bottom:1px dashed var(--line)}
+.kv:last-child{border-bottom:none}
+.kv b{font-family:Georgia,serif;font-size:14.5px}
+.note{font-size:12.5px;color:var(--ink-soft);margin-top:14px;line-height:1.7;background:#faf5e9;padding:11px 14px;border-radius:10px}
+
+.ver{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:18px}
+@media(max-width:820px){.ver{grid-template-columns:1fr}}
+.ver>div{padding:18px 20px}
+.ver .col-a{background:#fff;border-right:1px solid var(--line)}
+@media(max-width:820px){.ver .col-a{border-right:none;border-bottom:1px solid var(--line)}}
+.ver .col-b{background:var(--amber-soft)}
+.ver h4{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px;color:#9b8f7a}
+.ver .lv{font-size:11.5px;color:#a89b85;margin-bottom:12px}
+.ver p{font-family:Georgia,serif;font-size:15px;line-height:1.95;color:#3b352d}
+.ver .col-b p{color:#4a3510}
+.ver .col-b h4,.ver .col-b .lv{color:#8a5f14}
+
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+@media(max-width:760px){.compare{grid-template-columns:1fr}}
+.compare>div{padding:16px 18px}
+.compare .left{background:#fdf7f4;border-right:1px solid var(--line)}
+@media(max-width:760px){.compare .left{border-right:none;border-bottom:1px solid var(--line)}}
+.compare .right{background:var(--green-soft)}
+.compare h4{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px;color:#9b8f7a}
+.compare p{font-family:Georgia,serif;font-size:14.5px;line-height:1.95;color:#3b352d}
+.compare .right p{color:#1d4b40}
+.compare .del{color:#a8564b;text-decoration:line-through;text-decoration-color:rgba(168,86,75,.5)}
+.compare .ins{background:rgba(31,111,92,.13);border-radius:3px;padding:0 2px}
+
+.tips{list-style:none;margin-top:6px}
+.tips li{display:flex;gap:12px;padding:11px 0;border-bottom:1px dashed var(--line);font-size:13.5px;line-height:1.7}
+.tips li:last-child{border-bottom:none}
+.tips .k{flex:none;width:22px;height:22px;border-radius:7px;background:var(--red-soft);color:var(--red);display:grid;place-items:center;font-size:11.5px;font-weight:700;margin-top:2px}
+.tips b{color:var(--ink)}
+.tips code{font-family:Georgia,serif;background:#f3ecdc;padding:1px 5px;border-radius:4px;font-size:13px}
+.colloc{width:100%;border-collapse:collapse;font-size:13px;min-width:0}
+.colloc td{padding:8px 6px;border-bottom:1px solid rgba(227,218,198,.65)}
+.colloc tr:last-child td{border-bottom:none}
+.colloc td:first-child{font-family:Georgia,serif;color:var(--red);width:46%}
+.colloc td:last-child{color:var(--ink-soft);font-size:12.5px}
+
+.dg{width:100%;border-collapse:collapse;font-size:13px;min-width:680px}
+.dg th{text-align:left;padding:11px 14px;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:#9b8f7a;background:#faf5e9;border-bottom:1px solid var(--line)}
+.dg td{padding:11px 14px;border-bottom:1px solid rgba(227,218,198,.7);vertical-align:top}
+.dg tr:last-child td{border-bottom:none}
+.dg .a{font-family:Georgia,serif;color:#7a6a55;width:32%}
+.dg .b{font-family:Georgia,serif;color:var(--amber);width:32%}
+.dg .c{color:var(--ink-soft);font-size:12.5px}
+
+.trick{display:grid;grid-template-columns:28px 1fr;gap:13px;padding:15px 0;border-bottom:1px dashed var(--line)}
+.trick:last-child{border-bottom:none;padding-bottom:2px}
+.trick .no{
+  width:26px;height:26px;border-radius:8px;background:var(--red-soft);color:var(--red);
+  display:grid;place-items:center;font-size:12px;font-weight:700;font-family:Georgia,serif;margin-top:2px;
+}
+.trick h4{font-size:14.5px;margin-bottom:4px}
+.trick .d{font-size:12.5px;color:var(--ink-soft);line-height:1.7;margin-bottom:9px}
+.trick .d b{color:var(--ink)}
+.trick .d code{font-family:Georgia,serif;background:#f3ecdc;padding:1px 5px;border-radius:4px;font-size:12px}
+.trick table{width:100%;border-collapse:collapse;font-size:12.5px;min-width:0}
+.trick td{padding:5px 9px;border-bottom:1px solid rgba(227,218,198,.55);vertical-align:top;line-height:1.6}
+.trick tr:last-child td{border-bottom:none}
+.trick td:first-child{font-family:Georgia,serif;color:#7a6a55;width:40%}
+.trick td:last-child{font-family:Georgia,serif;color:var(--green)}
+.split{background:#faf5e9;border-radius:11px;padding:14px 16px;margin-top:10px}
+.split .zh{font-size:13px;color:#6b6357;line-height:1.75;margin-bottom:10px}
+.split .en{font-family:Georgia,serif;font-size:14px;line-height:2;color:#3b352d}
+.split .en span{display:block}
+@media(max-width:720px){
+  .trick{grid-template-columns:22px 1fr;gap:10px}
+  .trick td:first-child{width:44%}
+}
+
+.scrim{position:fixed;inset:0;background:rgba(43,39,35,.32);z-index:60;opacity:0;pointer-events:none;transition:.25s;backdrop-filter:blur(1px)}
+.scrim.on{opacity:1;pointer-events:auto}
+.detail{
+  position:fixed;top:0;right:0;bottom:0;width:400px;max-width:92vw;z-index:70;background:var(--card);
+  box-shadow:-12px 0 40px rgba(50,40,20,.16);transform:translateX(102%);
+  transition:transform .32s cubic-bezier(.3,.9,.3,1);display:flex;flex-direction:column;
+}
+.detail.on{transform:none}
+.dt-head{padding:18px 22px 14px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
+.dt-head .badge{font-size:11.5px;padding:3px 11px}
+.dt-close{margin-left:auto;appearance:none;border:none;background:#f2ebdb;width:30px;height:30px;border-radius:9px;cursor:pointer;font-size:16px;color:var(--ink-soft);display:grid;place-items:center}
+.dt-close:hover{background:#e8dfcc;color:var(--ink)}
+.dt-body{padding:20px 22px;overflow-y:auto;flex:1}
+.dt-label{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:#a89b85;font-weight:600;margin-bottom:6px}
+.dt-bad{font-family:Georgia,serif;font-size:19px;color:#a4402f;line-height:1.5;margin-bottom:18px;word-break:break-word}
+.dt-good{font-family:Georgia,serif;font-size:19px;color:var(--green);line-height:1.5;background:var(--green-soft);padding:12px 14px;border-radius:10px;margin-bottom:20px;word-break:break-word}
+.dt-why{font-size:14px;line-height:1.85;color:#4a423a}
+.dt-why b{color:var(--ink)}
+.dt-src{margin-top:18px;font-size:12.5px;color:var(--ink-soft);background:#faf5e9;padding:10px 13px;border-radius:9px;line-height:1.7}
+.dt-src .en{display:block;color:#6b6357;margin-top:3px}
+.dt-foot{padding:12px 16px;border-top:1px solid var(--line);display:flex;gap:8px;align-items:center}
+.nav-btn{flex:1;appearance:none;font:inherit;font-size:12.5px;padding:9px;border-radius:10px;cursor:pointer;border:1px solid var(--line);background:#fff;color:var(--ink-soft)}
+.nav-btn:hover{border-color:var(--ink);color:var(--ink)}
+.dt-count{font-size:11.5px;color:#a89b85;font-family:Georgia,serif;padding:0 4px;white-space:nowrap}
+
+.progress-line{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--ink-soft);margin-bottom:14px}
+.progress-line .track{flex:1;height:5px;background:#eae2d1;border-radius:99px;overflow:hidden}
+.progress-line .fill{height:100%;background:var(--red);width:0;transition:width .35s}
+
+@media(max-width:720px){
+  .en-block{margin-left:22px;margin-right:16px;font-size:16.5px;line-height:2}
+  .sent-head{padding:16px 16px 0;gap:10px}
+  .sent-foot{margin-left:22px;margin-right:16px}
+  .ref-text,.simp-text{margin-left:22px;margin-right:16px}
+  .overview{grid-template-columns:1fr;gap:18px;padding:22px 20px;text-align:center}
+  .score-ring{margin:0 auto}
+  .ov-main h1{font-size:18px}
+  .verdict,.alt-score{text-align:left}
+  .chips{justify-content:center}
+  .wrap{padding:18px 14px 0}
+  .detail{width:100%;max-width:none;top:auto;height:78vh;border-radius:18px 18px 0 0;transform:translateY(104%)}
+  .detail.on{transform:none}
+  .dt-body{padding:16px 18px}
+}
+@media print{
+  .stick,.detail,.scrim,.sent-foot{display:none!important}
+  .panel{display:block!important;page-break-inside:avoid}
+  body{background:#fff}
+}
+</style>
+</head>
+<body>
+
+<div class="stick">
+  <div class="head-in">
+    <div class="brand"><span class="dot"></span><span id="brandText">四级汉译英 · 批改报告</span></div>
+    <nav class="tabs" id="tabs">
+      <button class="tab" data-panel="p-summary">总结</button>
+      <button class="tab on" data-panel="p-review">逐句批改<span class="cnt" id="tabCntReview"></span></button>
+      <button class="tab" data-panel="p-list">错误清单</button>
+      <button class="tab" data-panel="p-compare">两版对照</button>
+      <button class="tab" data-panel="p-score">评分解析</button>
+      <button class="tab" data-panel="p-method">保底打法</button>
+      <button class="tab" data-panel="p-tips">改写与提升</button>
+    </nav>
+    <div class="head-meta">
+      <span id="topExam"></span>
+      <span id="topCount"></span>
+      <span id="readCount">已读 0</span>
+    </div>
+  </div>
+  <div class="filt-in">
+    <span class="lbl">跳转</span>
+    <div class="chips" id="chips"></div>
+    <span class="filt-hint" id="filtHint">点分类 → 直接跳到第一处</span>
+  </div>
+</div>
+
+<div class="wrap">
+  <section class="panel" id="p-summary">
+    <section class="overview">
+      <div class="score-ring" id="ring"><div class="num"><b id="scoreNum">0</b><i>／15</i></div></div>
+      <div class="ov-main">
+        <h1 id="ovTitle"></h1>
+        <div class="verdict" id="ovVerdict"></div>
+        <div class="alt-score" id="ovAlt"></div>
+      </div>
+    </section>
+    <div class="card" style="margin-top:18px">
+      <h3>一句话诊断</h3>
+      <p class="sub">先看这三行，再去逐句批改找细节</p>
+      <ul class="tips" id="summaryTips"></ul>
+    </div>
+  </section>
+
+  <section class="panel on" id="p-review">
+    <div class="progress-line">
+      <span>批注阅读进度</span>
+      <div class="track"><div class="fill" id="readFill"></div></div>
+      <span id="readPct">0%</span>
+    </div>
+    <details class="transcript">
+      <summary>我的手写原文（逐行转录 · 含划改）<span class="hint" id="trCount"></span></summary>
+      <div class="body"><ol id="transcriptList"></ol></div>
+    </details>
+    <div id="sentWrap"></div>
+  </section>
+
+  <section class="panel" id="p-list">
+    <div class="list-toolbar" id="listToolbar"></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>#</th><th>类型</th><th>你写的</th><th>建议改为</th><th>位置</th></tr></thead>
+        <tbody id="listBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="panel" id="p-compare">
+    <div class="ver" id="verWrap"></div>
+    <div class="card" style="margin-bottom:18px">
+      <h3>为什么简单版能拿 11 分</h3>
+      <p class="sub">评分档位由错误密度决定，不由词汇难度决定</p>
+      <div id="verWhy"></div>
+    </div>
+    <div class="card">
+      <h3>逐条降级对照</h3>
+      <p class="sub">左边是范文表达，右边是「不会写时怎么说」——同一个意思，换一种活法</p>
+      <div class="table-wrap" style="box-shadow:none;border:none">
+        <table class="dg"><thead><tr><th>范文写法</th><th>降级写法</th><th>降级的代价</th></tr></thead><tbody id="dgBody"></tbody></table>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-score">
+    <div class="grid2">
+      <div class="card">
+        <h3>四级翻译评分标准（15 分制）</h3>
+        <p class="sub">官方六档，阅卷按档给分，可在档内浮动</p>
+        <table class="score-table">
+          <tr data-band="14"><td>14分</td><td>译文准确表达原文意思，用词贴切，行文流畅，基本无语言错误，仅有个别小错。</td></tr>
+          <tr data-band="11"><td>11分</td><td>译文基本表达原文意思，文字比较通顺、连贯，但有少量语言错误。</td></tr>
+          <tr data-band="8"><td>8分</td><td>译文勉强表达原文意思，文字勉强通顺连贯，有相当多的语言错误，其中部分为严重错误。</td></tr>
+          <tr data-band="5"><td>5分</td><td>译文仅表达少部分原文意思，文字不通顺、连贯性差，有大量语言错误，含相当多的严重错误。</td></tr>
+          <tr data-band="2"><td>2分</td><td>译文仅表达极小部分原文意思，文字支离破碎，只有零星的正确表达。</td></tr>
+          <tr data-band="0"><td>0分</td><td>白卷，或完全跑题，或只有几个孤立的单词。</td></tr>
+        </table>
+        <div class="note" id="scoreNote"></div>
+      </div>
+      <div class="card">
+        <h3>两个维度拆开看</h3>
+        <p class="sub">阅卷实际是「意思对不对」+「英文顺不顺」两把尺子</p>
+        <div class="bars" id="barsWrap"></div>
+        <div id="kvWrap"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-method">
+    <div class="card" style="margin-bottom:18px">
+      <h3>保底打法总纲</h3>
+      <p class="sub">目标不是译得漂亮，是不掉出 11 分档</p>
+      <div id="methodIntro"></div>
+    </div>
+    <div class="card" style="margin-bottom:18px">
+      <h3>单词不会写：三招，按顺序用</h3>
+      <p class="sub">第 1 招换词 → 第 2 招解释 → 第 3 招分大词小词</p>
+      <div id="trickWrap"></div>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <h3>长句不会写：一律拆简单句</h3>
+        <p class="sub">一句中文拆成 2–3 句，一句只说一件事</p>
+        <div id="splitWrap"></div>
+      </div>
+      <div class="card">
+        <h3>考场五步走</h3>
+        <p class="sub">按这个顺序写，不会卡住</p>
+        <ul class="tips" id="stepsWrap"></ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-tips">
+    <div class="card" style="margin-bottom:18px">
+      <h3>最小改动版 vs 你的原句</h3>
+      <p class="sub">不改你的句子骨架，只把错误修掉——这才是考场上真正能做到的改法</p>
+      <div class="compare" id="rewriteWrap"></div>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <h3>必须先修的硬伤</h3>
+        <p class="sub">按「出现频率 × 扣分权重」排序</p>
+        <ul class="tips" id="tipsWrap"></ul>
+      </div>
+      <div class="card">
+        <h3>抄下来就能用的搭配</h3>
+        <p class="sub">这篇真题里出现的，全是四级高频</p>
+        <table class="colloc"><tbody id="collocWrap"></tbody></table>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<aside class="detail" id="detail">
+  <div class="dt-head">
+    <span class="badge" id="dtBadge">语法</span>
+    <span style="font-size:12px;color:#a89b85" id="dtNo">#1</span>
+    <button class="dt-close" id="dtClose" aria-label="关闭">✕</button>
+  </div>
+  <div class="dt-body">
+    <div class="dt-label">你写的</div>
+    <div class="dt-bad en" id="dtBad">—</div>
+    <div class="dt-label">建议改为</div>
+    <div class="dt-good en" id="dtGood">—</div>
+    <div class="dt-label">为什么错</div>
+    <div class="dt-why" id="dtWhy">—</div>
+    <div class="dt-src" id="dtSrc"></div>
+  </div>
+  <div class="dt-foot">
+    <button class="nav-btn" id="dtPrev">← 上一处</button>
+    <span class="dt-count" id="dtCount"></span>
+    <button class="nav-btn" id="dtNext">下一处 →</button>
+  </div>
+</aside>
+
+<script>
+const DATA = /*__CET4_DATA__*/null;
+
+const TYPE = {
+  grammar:     {name:"语法", cls:"t-grammar", badge:"b-grammar"},
+  spelling:    {name:"拼写", cls:"t-spelling", badge:"b-spelling"},
+  collocation: {name:"搭配", cls:"t-collocation", badge:"b-collocation"},
+  word:        {name:"用词", cls:"t-word", badge:"b-word"},
+  logic:       {name:"逻辑/漏译", cls:"t-logic", badge:"b-logic"}
+};
+
+if (!DATA) {
+  document.body.innerHTML = '<div style="padding:60px;font-family:sans-serif;font-size:15px;line-height:2">' +
+    '<b>模板未注入数据。</b><br>这是 cet4-translation-review skill 的 HTML 模板，请用：<br>' +
+    '<code style="background:#eee;padding:2px 6px;border-radius:4px">python3 scripts/build.py data.json out.html</code>' +
+    '</div>';
+} else {
+  boot();
+}
+
+function boot(){
+  const M = DATA.meta;
+  const errKeys = Object.keys(DATA.errors);
+  const total = errKeys.length;
+
+  /* ---------- 顶部与总览 ---------- */
+  document.title = '四级汉译英 · ' + (M.topic || '') + ' 批改报告';
+  document.getElementById('brandText').textContent = '四级汉译英 · 批改报告';
+  document.getElementById('topExam').textContent = M.exam + ' · ' + M.part;
+  document.getElementById('topCount').textContent = total + ' 处标注';
+  document.getElementById('tabCntReview').textContent = total;
+  document.getElementById('ovTitle').innerHTML = M.title + '<small>' + M.subtitle + '</small>';
+  document.getElementById('ovVerdict').innerHTML = M.verdict;
+  document.getElementById('ovAlt').innerHTML = M.simpleNote;
+  document.getElementById('summaryTips').innerHTML = (DATA.tips || []).slice(0, 3).map((t, i) =>
+    '<li><span class="k">' + (i + 1) + '</span><div><b>' + t.title + '</b>：' + t.desc + '</div></li>').join('');
+
+  /* ---------- 分数环 ---------- */
+  const target = Number(M.score) || 0;
+  const maxScore = Number(M.max) || 15;
+  const ring = document.getElementById('ring');
+  const numEl = document.getElementById('scoreNum');
+  // 先把终值写死，保证无动画环境（打印、无头截图）也正确；再叠加一次入场动画
+  numEl.textContent = target.toFixed(1);
+  ring.style.background = 'conic-gradient(var(--red) ' + (target / maxScore * 100) + '%, #ece4d3 0)';
+  if (location.hash !== '#static') requestAnimationFrame(function(){
+    let t0 = performance.now();
+    function step(t){
+      const k = Math.min((t - t0) / 1100, 1);
+      const e = 1 - Math.pow(1 - k, 3);
+      numEl.textContent = (target * e).toFixed(1);
+      ring.style.background = 'conic-gradient(var(--red) ' + (target * e / maxScore * 100) + '%, #ece4d3 0)';
+      if (k < 1) requestAnimationFrame(step);
+      else {
+        numEl.textContent = target.toFixed(1);
+        ring.style.background = 'conic-gradient(var(--red) ' + (target / maxScore * 100) + '%, #ece4d3 0)';
+      }
+    }
+    requestAnimationFrame(step);
+  });
+
+  /* ---------- 分类跳转 chips（顶部常驻） ---------- */
+  const counts = {};
+  Object.values(DATA.errors).forEach(e => counts[e.type] = (counts[e.type] || 0) + 1);
+
+  const chipsEl = document.getElementById('chips');
+  const activeTypes = new Set();
+  const filtHint = document.getElementById('filtHint');
+
+  // 「全部」chip：清除筛选
+  const allChip = document.createElement('button');
+  allChip.className = 'chip all on'; allChip.dataset.t = '__all';
+  allChip.innerHTML = '全部 <span class="n">' + total + '</span>';
+  allChip.onclick = () => { clearFilter(); jumpTo(null); };
+  chipsEl.appendChild(allChip);
+
+  Object.keys(TYPE).forEach(t => {
+    if (!counts[t]) return;
+    const b = document.createElement('button');
+    b.className = 'chip on'; b.dataset.t = t;
+    b.innerHTML = '<span class="sw"></span>' + TYPE[t].name + ' <span class="n">' + counts[t] + '</span>';
+    b.onclick = () => {
+      // 单选：点某类 = 只看这类 + 跳到第一处；再点一次 = 恢复全部
+      const wasOn = activeTypes.has(t);
+      activeTypes.clear();
+      if (!wasOn) activeTypes.add(t);
+      syncChips();
+      applyFilter();
+      jumpTo(wasOn ? null : t);
+    };
+    chipsEl.appendChild(b);
+  });
+
+  function syncChips(){
+    document.querySelectorAll('#chips .chip[data-t]:not(.all)').forEach(c =>
+      c.classList.toggle('on', activeTypes.size === 0 || activeTypes.has(c.dataset.t)));
+    allChip.classList.toggle('on', activeTypes.size === 0);
+  }
+
+  function clearFilter(){
+    activeTypes.clear();
+    syncChips();
+    applyFilter();
+  }
+
+  // 跳到某一类的第一处（type 为 null 时回顶部）
+  function jumpTo(type){
+    if (!type) {
+      filtHint.textContent = '点分类 → 直接跳到第一处';
+      switchTab('p-review');
+      return;
+    }
+    filtHint.textContent = '正在看：' + TYPE[type].name + ' · ' + counts[type] + ' 处';
+    const firstId = errKeys.find(id => DATA.errors[id].type === type);
+    if (!firstId) return;
+    switchTab('p-review', true);           // true = 不滚到页面顶端
+    setTimeout(() => {
+      const mk = document.querySelector('.mark[data-e="' + firstId + '"]');
+      if (mk) mk.scrollIntoView({block:'center'});
+      setTimeout(() => window.openDetail(firstId, false), 200);
+    }, 40);
+  }
+
+  function applyFilter(){
+    document.body.classList.toggle('dim', activeTypes.size > 0);
+    document.querySelectorAll('.mark').forEach(m => {
+      m.classList.toggle('type-on', activeTypes.has(DATA.errors[m.dataset.e].type));
+    });
+    document.querySelectorAll('#listToolbar .mini').forEach(b => {
+      if (b.dataset.filter) b.classList.toggle('on', activeTypes.has(b.dataset.filter));
+    });
+    document.querySelectorAll('#listBody tr').forEach(tr => {
+      tr.classList.toggle('hide', activeTypes.size > 0 && !activeTypes.has(tr.dataset.type));
+    });
+  }
+
+  /* ---------- 手写转录 ---------- */
+  document.getElementById('trCount').textContent = DATA.transcript.length + ' 行';
+  document.getElementById('transcriptList').innerHTML = DATA.transcript.map((l, i) =>
+    '<li><span class="ln">' + String(i + 1).padStart(2, '0') + '</span>' + l + '</li>').join('');
+
+  /* ---------- 逐句卡片 ---------- */
+  const sentWrap = document.getElementById('sentWrap');
+  DATA.sentences.forEach(s => {
+    const el = document.createElement('article');
+    el.className = 'sent';
+    let enHtml = '';
+    s.tokens.forEach(tk => {
+      if (tk.e) {
+        const type = DATA.errors[tk.e].type;
+        enHtml += '<span class="mark ' + TYPE[type].cls + '" data-e="' + tk.e + '">' +
+          (tk.strike ? '<span class="strike">' + tk.t + '</span>' : tk.t) +
+          '<span class="idx">' + tk.e.slice(1) + '</span></span>';
+      } else if (tk.strike) {
+        enHtml += '<span class="strike">' + tk.t + '</span>';
+      } else {
+        enHtml += tk.t;
+      }
+    });
+    const n = s.tokens.filter(t => t.e).length;
+    el.innerHTML =
+      '<div class="sent-head"><div class="sent-no">' + String(s.no).padStart(2, '0') + '</div>' +
+      '<div class="zh">' + s.zh + '</div></div>' +
+      '<div class="en-block en">' + enHtml + '</div>' +
+      '<div class="sent-foot">' +
+        '<button class="ref-btn">标准译法</button>' +
+        (s.simple ? '<button class="simp-btn">简单版</button>' : '') +
+        '<span style="font-size:11.5px;color:#b3a68c">' + n + ' 处标注</span>' +
+      '</div>' +
+      (s.simple ? '<div class="simp-text"><span class="lbl">11 分档 · 简单版</span>' + s.simple +
+        (s.simpleNote ? '<span class="why">' + s.simpleNote + '</span>' : '') + '</div>' : '') +
+      '<div class="ref-text"><span class="lbl">Reference</span>' + s.ref + '</div>';
+    sentWrap.appendChild(el);
+  });
+
+  document.addEventListener('click', e => {
+    if (e.target.classList.contains('ref-btn')) {
+      const box = e.target.closest('.sent').querySelector('.ref-text');
+      box.classList.toggle('show');
+      e.target.textContent = box.classList.contains('show') ? '收起' : '标准译法';
+    }
+    if (e.target.classList.contains('simp-btn')) {
+      const box = e.target.closest('.sent').querySelector('.simp-text');
+      box.classList.toggle('show');
+      e.target.textContent = box.classList.contains('show') ? '收起' : '简单版';
+    }
+  });
+
+  /* ---------- 错误清单 ---------- */
+  const listBody = document.getElementById('listBody');
+  errKeys.forEach((id, i) => {
+    const e = DATA.errors[id];
+    const tr = document.createElement('tr');
+    tr.dataset.type = e.type; tr.dataset.e = id;
+    tr.innerHTML = '<td class="num">' + (i + 1) + '</td>' +
+      '<td><span class="badge ' + TYPE[e.type].badge + '">' + TYPE[e.type].name + '</span></td>' +
+      '<td class="bad">' + e.bad + '</td><td class="good">' + e.good + '</td>' +
+      '<td style="color:#9b8f7a;font-size:12px;white-space:nowrap">第 ' + findSent(id) + ' 句</td>';
+    tr.onclick = () => openDetail(id, true);
+    listBody.appendChild(tr);
+  });
+  function findSent(id){
+    for (const s of DATA.sentences) if (s.tokens.some(t => t.e === id)) return s.no;
+    return 1;
+  }
+
+  const toolbar = document.getElementById('listToolbar');
+  const allBtn = document.createElement('button');
+  allBtn.className = 'mini on'; allBtn.textContent = '全部 ' + total;
+  allBtn.onclick = () => { clearFilter(); };
+  toolbar.appendChild(allBtn);
+  Object.keys(TYPE).forEach(t => {
+    if (!counts[t]) return;
+    const b = document.createElement('button');
+    b.className = 'mini'; b.dataset.filter = t;
+    b.textContent = TYPE[t].name + ' ' + counts[t];
+    b.onclick = () => {
+      if (activeTypes.has(t)) activeTypes.delete(t); else activeTypes.add(t);
+      syncChips();
+      applyFilter();
+    };
+    toolbar.appendChild(b);
+  });
+
+  /* ---------- 两版对照 ---------- */
+  const refText = DATA.sentences.map(s => s.ref).join(' ');
+  const simpText = DATA.sentences.map(s => s.simple || '').filter(Boolean).join(' ');
+  document.getElementById('verWrap').innerHTML =
+    '<div class="col-a"><h4>精确版</h4><div class="lv">目标 13–14 分档 · ' + refText.split(/\s+/).length + ' 词</div>' +
+    '<p class="en">' + refText + '</p></div>' +
+    '<div class="col-b"><h4>简单版</h4><div class="lv">目标 11 分档 · ' + simpText.split(/\s+/).length + ' 词 · 零语法错误</div>' +
+    '<p class="en">' + simpText + '</p></div>';
+  document.getElementById('verWhy').innerHTML = M.simpleWhy || '';
+
+  const dgBody = document.getElementById('dgBody');
+  (DATA.downgrades || []).forEach(d => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = '<td class="a">' + d.from + '</td><td class="b">' + d.to + '</td><td class="c">' + d.why + '</td>';
+    dgBody.appendChild(tr);
+  });
+
+  /* ---------- 保底打法 ---------- */
+  const method = DATA.method || {};
+  document.getElementById('methodIntro').innerHTML = method.intro || '';
+  const trickWrap = document.getElementById('trickWrap');
+  (method.tricks || []).forEach((t, i) => {
+    const rows = (t.rows || []).map(r =>
+      '<tr><td>' + r[0] + '</td><td>' + r[1] + '</td></tr>').join('');
+    trickWrap.insertAdjacentHTML('beforeend',
+      '<div class="trick"><div class="no">' + (i + 1) + '</div><div>' +
+      '<h4>' + t.title + '</h4><div class="d">' + t.desc + '</div>' +
+      (rows ? '<table>' + rows + '</table>' : '') +
+      '</div></div>');
+  });
+  document.getElementById('splitWrap').innerHTML = (method.splits || []).map(s =>
+    '<div class="split"><div class="zh">' + s.zh + '</div><div class="en">' +
+      s.en.map(l => '<span>' + l + '</span>').join('') + '</div>' +
+      (s.note ? '<div class="d" style="font-size:12px;color:#8a5f14;margin-top:8px">' + s.note + '</div>' : '') +
+    '</div>').join('');
+  document.getElementById('stepsWrap').innerHTML = (method.steps || []).map((s, i) =>
+    '<li><span class="k">' + (i + 1) + '</span><div><b>' + s.title + '</b>：' + s.desc + '</div></li>').join('');
+
+  /* ---------- 评分解析 ---------- */
+  const table = document.querySelector('.score-table');
+  const rows = [...table.querySelectorAll('tr')];
+  let anchor = rows.find(r => Number(r.dataset.band) <= target) || rows[rows.length - 1];
+  const here = document.createElement('tr');
+  here.className = 'here';
+  here.innerHTML = '<td>' + target + '</td><td>' + (M.scoreWhy || '') + '</td>';
+  anchor.parentNode.insertBefore(here, anchor);
+
+  document.getElementById('scoreNote').innerHTML = M.scoreNote || '';
+
+  const barsWrap = document.getElementById('barsWrap');
+  (DATA.dims || []).forEach(d => {
+    const row = document.createElement('div');
+    row.className = 'bar-row';
+    row.innerHTML = '<span>' + d.name + '</span><div class="track"><div class="fill" style="background:' +
+      (d.color || 'var(--red)') + '" data-w="' + (d.value / (d.max || 15) * 100) + '%"></div></div>' +
+      '<span class="v">' + d.value + (d.max ? '/' + d.max : '') + '</span>';
+    barsWrap.appendChild(row);
+  });
+
+  const kvWrap = document.getElementById('kvWrap');
+  (DATA.kv || []).forEach(k => {
+    const div = document.createElement('div');
+    div.className = 'kv';
+    div.innerHTML = '<span>' + k.k + '</span><b style="' + (k.color ? 'color:' + k.color : '') + '">' + k.v + '</b>';
+    kvWrap.appendChild(div);
+  });
+
+  /* ---------- 改写与提升 ---------- */
+  document.getElementById('rewriteWrap').innerHTML =
+    '<div class="left"><h4>你写的</h4><p>' + DATA.rewrite.bad + '</p></div>' +
+    '<div class="right"><h4>改后（保留你的句式）</h4><p>' + DATA.rewrite.good + '</p></div>';
+
+  document.getElementById('tipsWrap').innerHTML = (DATA.tips || []).map((t, i) =>
+    '<li><span class="k">' + (i + 1) + '</span><div><b>' + t.title + '</b>：' + t.desc + '</div></li>').join('');
+
+  document.getElementById('collocWrap').innerHTML = (DATA.collocations || []).map(c =>
+    '<tr><td>' + c[0] + '</td><td>' + c[1] + '</td></tr>').join('');
+
+  /* ---------- 详情面板 ---------- */
+  const detail = document.getElementById('detail');
+  const scrim = document.getElementById('scrim');
+  const order = errKeys;
+  let currentId = null;
+  const seen = new Set();
+
+  window.openDetail = function(id, switchToReview){
+    if (switchToReview) switchTab('p-review');
+    currentId = id;
+    const e = DATA.errors[id];
+    const idx = order.indexOf(id);
+    const badge = document.getElementById('dtBadge');
+    badge.className = 'badge ' + TYPE[e.type].badge;
+    badge.textContent = TYPE[e.type].name;
+    document.getElementById('dtNo').textContent = '#' + (idx + 1);
+    document.getElementById('dtBad').textContent = e.bad;
+    document.getElementById('dtGood').textContent = e.good;
+    document.getElementById('dtWhy').innerHTML = e.why;
+    document.getElementById('dtSrc').innerHTML = '原文：' + e.src + '<span class="en">' + e.srcEn + '</span>';
+    document.getElementById('dtCount').textContent = (idx + 1) + '/' + total;
+    document.querySelectorAll('.mark').forEach(m => m.classList.toggle('active', m.dataset.e === id));
+    detail.classList.add('on'); scrim.classList.add('on');
+    seen.add(id);
+    document.querySelectorAll('.mark[data-e="' + id + '"]').forEach(m => m.classList.add('seen'));
+    updateProgress();
+    const act = document.querySelector('.mark.active');
+    if (act) act.scrollIntoView({block:'nearest', behavior:'smooth'});
+  };
+
+  function closeDetail(){
+    detail.classList.remove('on'); scrim.classList.remove('on');
+    document.querySelectorAll('.mark').forEach(m => m.classList.remove('active'));
+    currentId = null;
+  }
+
+  document.addEventListener('click', e => {
+    const m = e.target.closest('.mark');
+    if (m) window.openDetail(m.dataset.e, false);
+  });
+  document.getElementById('dtClose').onclick = closeDetail;
+  scrim.onclick = closeDetail;
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeDetail();
+    if (!currentId) return;
+    const i = order.indexOf(currentId);
+    if (e.key === 'ArrowRight' && i < order.length - 1) window.openDetail(order[i + 1], false);
+    if (e.key === 'ArrowLeft' && i > 0) window.openDetail(order[i - 1], false);
+  });
+  document.getElementById('dtPrev').onclick = () => {
+    const i = order.indexOf(currentId); if (i > 0) window.openDetail(order[i - 1], false);
+  };
+  document.getElementById('dtNext').onclick = () => {
+    const i = order.indexOf(currentId); if (i < order.length - 1) window.openDetail(order[i + 1], false);
+  };
+
+  function updateProgress(){
+    const p = Math.round(seen.size / total * 100);
+    document.getElementById('readFill').style.width = p + '%';
+    document.getElementById('readPct').textContent = p + '%';
+    document.getElementById('readCount').textContent = '已读 ' + seen.size + '/' + total;
+  }
+
+  /* ---------- Tabs ---------- */
+  const tabs = [...document.querySelectorAll('.tab')];
+  tabs.forEach(t => t.onclick = () => switchTab(t.dataset.panel));
+  function switchTab(pid, keepScroll){
+    tabs.forEach(t => t.classList.toggle('on', t.dataset.panel === pid));
+    document.querySelectorAll('.panel').forEach(p => p.classList.toggle('on', p.id === pid));
+    const cur = tabs.find(t => t.dataset.panel === pid);
+    if (cur) {
+      // 只在标签栏内部横向滚动，不要把整个页面滚偏
+      const bar = document.getElementById('tabs');
+      const box = bar.getBoundingClientRect(), rc = cur.getBoundingClientRect();
+      if (rc.left < box.left || rc.right > box.right) {
+        bar.scrollLeft += (rc.left - box.left) - (box.width - rc.width) / 2;
+      }
+    }
+    if (pid === 'p-score') setTimeout(animateBars, 60);
+    if (history.replaceState) history.replaceState(null, '', pid === 'p-review' ? location.pathname : '#' + pid);
+    if (!keepScroll) window.scrollTo({top:0, behavior:'smooth'});
+  }
+  // 支持 #p-score 之类的链接直达某个标签
+  if (location.hash) {
+    const pid = location.hash.slice(1);
+    if (document.getElementById(pid) && document.getElementById(pid).classList.contains('panel')) switchTab(pid);
+  }
+  function animateBars(){
+    document.querySelectorAll('.bar-row .fill').forEach(f => {
+      f.style.width = '0';
+      setTimeout(() => f.style.width = f.dataset.w, 80);
+    });
+  }
+  window.switchTab = switchTab;
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,417 @@
+{
+  "meta": {
+    "exam": "2024年12月 · 第3套",
+    "part": "Part IV 汉译英",
+    "topic": "新能源汽车",
+    "title": "2024 年 12 月大学英语四级 Part IV 汉译英",
+    "subtitle": "新能源汽车 · 15 分制 · 折算 710 分制约 46 分（106.5×43.3%）",
+    "score": 6.5,
+    "max": 15,
+    "verdict": "整体<b>意思基本译出来了</b>，四句都在题上；但<b>谓语、词性、搭配</b>三类错误密集，属于「勉强表达原文意思」的档位，离 11 分档还差一大截。",
+    "simpleNote": "同一篇内容若改用「零语法错误的简单版」：约 <b>11 分</b>，折算 <b>78 分</b>——比现在高 32 分，且不需要多背一个单词。",
+    "scoreWhy": "你的得分：落在 5 分档与 8 分档之间偏下——意思大体传达，但语言错误已成规模。",
+    "scoreNote": "为什么不是 8 分：8 分档要求「有相当多语言错误，<b>其中部分为严重错误</b>」。你这篇 21 处标注里有 5 处属于结构级严重错误（谓语残缺、主谓不一致、搭配错误、词性误用），密度已超出 8 分档的容错。<br>为什么不是 5 分：5 分档要求「仅表达少部分意思」，而你四句全部译出、主要信息在场，明显高于 5 分。",
+    "simpleWhy": "<b>评分档位由错误密度决定，不由词汇难度决定。</b>11 分档的原文表述是「基本表达原文意思，文字比较通顺、连贯，但有少量语言错误」——注意，它<b>没有</b>对用词难度提任何要求。<br><br>所以，全篇用初中词汇、句子拆短，只要拼写和语法干净、信息点不丢，就稳稳落在 11 分档。反过来，词汇再漂亮，只要有三个时态错误、两个主谓不一致，也会掉到 8 分档。<br><br><b>简单版的底线只有两条：</b>① 原文的信息点一个都不能少（宁可拆成三句）；② 逻辑连接词要保守（不确定因果就用 and 或断句）。"
+  },
+  "dims": [
+    { "name": "内容传达", "value": 10, "max": 15, "color": "var(--green)" },
+    { "name": "语言准确", "value": 5, "max": 15, "color": "var(--red)" },
+    { "name": "行文连贯", "value": 8, "max": 15, "color": "var(--amber)" },
+    { "name": "综合", "value": 6.5, "max": 15, "color": "var(--ink)" }
+  ],
+  "kv": [
+    { "k": "15 分制得分", "v": "6.5 / 15" },
+    { "k": "得分率", "v": "43.3%" },
+    { "k": "折算 710 分制（翻译占 15%）", "v": "约 46 / 106.5" },
+    { "k": "若只补「三单 + 词性 + 搭配」", "v": "可到 9–10 分", "color": "var(--green)" },
+    { "k": "若改用零错误的简单版", "v": "约 11 分 ≈ 78 分", "color": "var(--green)" }
+  ],
+  "sentences": [
+    {
+      "no": 1,
+      "zh": "近年来，中国新能源汽车产业发展迅速。",
+      "ref": "In recent years, China's new energy vehicle (NEV) industry has developed rapidly.",
+      "simple": "In recent years, China's new energy car industry grows very fast.",
+      "simpleNote": "「产业发展迅速」→ grows very fast；不会 NEV 缩写就写 new energy car。一般现在时 + 频率副词，不会出错。",
+      "tokens": [
+        { "t": "In recent years, " },
+        { "t": "the Chinese new energy vehicle industry " },
+        { "t": "develop have ", "strike": true },
+        { "t": "developeds", "e": "e1" },
+        { "t": " " },
+        { "t": "repidly", "e": "e2" },
+        { "t": "." }
+      ]
+    },
+    {
+      "no": 2,
+      "zh": "目前，中国新能源汽车年产量已高达近千万辆，占全球市场份额超过60%，出口量不断创出新高。",
+      "ref": "At present, China's annual NEV output has approached ten million units, accounting for over 60% of the global market share, with exports continuously hitting new highs.",
+      "simple": "Now China makes nearly 10 million new energy cars every year. They take over 60% of the world market, and China sells more and more of them to other countries.",
+      "simpleNote": "三个信息点拆成两句：产量一句、份额+出口一句。accounting for 换成 take，global 换成 world，hitting new highs 换成 sells more and more——意思全在，句子不会塌。",
+      "tokens": [
+        { "t": "For now", "e": "e3" },
+        { "t": ", the " },
+        { "t": "productivity", "e": "e4" },
+        { "t": " of the Chinese new energy vehicles " },
+        { "t": "have reached", "e": "e5" },
+        { "t": " to", "e": "e6" },
+        { "t": " millions", "e": "e7" },
+        { "t": ", " },
+        { "t": "taking up the market percentage", "e": "e8" },
+        { "t": " over 60%, " },
+        { "t": "which breaks the record a constantly", "e": "e9" },
+        { "t": "." }
+      ]
+    },
+    {
+      "no": 3,
+      "zh": "中国政府通过加大资金投入和政策引导，鼓励新能源汽车企业进行技术创新，不断提高产品在市场上的竞争力。",
+      "ref": "Through increased capital investment and policy guidance, the Chinese government has encouraged NEV enterprises to carry out technological innovation and continuously enhance their products' competitiveness in the market.",
+      "simple": "The Chinese government gives more money and makes policies to help these companies. The companies try new ways and make better products, so they can sell better in the market.",
+      "simpleNote": "一句中文拆成「政府做什么 + 企业怎么样」两句，用 so 接因果。carry out technological innovation → try new ways；enhance competitiveness → sell better。",
+      "tokens": [
+        { "t": "The Chinese goverment ", "e": "e10", "strike": true },
+        { "t": "By enhancing the invests to it", "e": "e11" },
+        { "t": " and making the policies to lead", "e": "e12" },
+        { "t": ", the " },
+        { "t": "goverment", "e": "e13" },
+        { "t": " encourage", "e": "e14" },
+        { "t": " new energy " },
+        { "t": "entre company", "e": "e15" },
+        { "t": " to develop the technology innovation", "e": "e16" },
+        { "t": " and " },
+        { "t": "enhance the competence of product production", "e": "e17" },
+        { "t": " in the market" },
+        { "t": "." }
+      ]
+    },
+    {
+      "no": 4,
+      "zh": "中国新能源汽车产业的发展不仅有力推动了国内经济发展，也为全球新能源利用和环境保护做出了积极贡献。",
+      "ref": "The development of China's NEV industry has not only strongly boosted domestic economic growth but also made positive contributions to global new energy utilization and environmental protection.",
+      "simple": "This industry helps China's economy grow. It also helps the world use clean energy and protect the environment.",
+      "simpleNote": "not only...but also 拆成两句 + also，避开长句。boost economic growth → help the economy grow；environmental protection → protect the environment。",
+      "tokens": [
+        { "t": "The development of the Chinese new energy vehicle industry not only " },
+        { "t": "de improves", "e": "e18" },
+        { "t": " the development of the " },
+        { "t": "economic", "e": "e19" },
+        { "t": " in China" },
+        { "t": ", but also makes a great contribution to the utilization of the " },
+        { "t": "global new energy", "e": "e20" },
+        { "t": " and the " },
+        { "t": "environmental conservation", "e": "e21" },
+        { "t": "." }
+      ]
+    }
+  ],
+  "errors": {
+    "e1": {
+      "type": "grammar",
+      "bad": "industry developeds",
+      "good": "industry has developed",
+      "why": "你把 <b>develop have</b> 划掉了，这个动作方向是对的——一句话只能有一个谓语。但划完之后剩下的 <b>developeds</b> 仍然不成立：<br><br><b>① 缺助动词</b>：现在完成时是 has + 过去分词，光有分词不行；<br><b>② 多了个 s</b>：三单的 -s 加在助动词上（has），不加在分词上。developed 就是过去分词，不能再加 s。<br><br>正确写法：<b>the industry has developed rapidly</b>。这是四级翻译里描述「某产业发展迅速」的固定句式。",
+      "src": "产业发展迅速",
+      "srcEn": "the industry has developed rapidly"
+    },
+    "e2": {
+      "type": "spelling",
+      "bad": "repidly",
+      "good": "rapidly",
+      "why": "<b>rapidly</b> 的第一个字母是 r，你写成了 r 的连笔但看起来像 v，整个词变成了 repidly。<br><br>这个词在四级翻译里几乎每套都出现（发展迅速 / 增长迅速 / 快速提升），写成这样相当于把最容易拿的分丢了。建议专门抄写五遍。",
+      "src": "发展迅速",
+      "srcEn": "develop rapidly"
+    },
+    "e3": {
+      "type": "word",
+      "bad": "For now",
+      "good": "At present / Currently",
+      "why": "<b>for now</b> 的意思是「暂时、眼下先这样（以后可能变）」，暗含临时性。原文「目前」是客观陈述当下状况，应该用 <b>At present</b> 或 <b>Currently</b>。<br><br>这是典型的「语法没错、语感不对」：阅卷老师不会判你语法错误，但会觉得用词不准。",
+      "src": "目前",
+      "srcEn": "At present"
+    },
+    "e4": {
+      "type": "word",
+      "bad": "the productivity",
+      "good": "the annual output / production",
+      "why": "<b>productivity</b> 是「生产率、生产效率」（单位投入产出多少），不是「产量」。产量对应 <b>output</b> 或 <b>production</b>。<br><br>还有一点：原文是「<b>年</b>产量」，annual 这个词不能省。漏掉限定词在评分里算「信息缺失」，不只是用词问题。",
+      "src": "年产量",
+      "srcEn": "annual output"
+    },
+    "e5": {
+      "type": "grammar",
+      "bad": "have reached",
+      "good": "has reached",
+      "why": "主语是 <b>the productivity / output</b>（单数），谓语必须用 <b>has</b>。这是本篇第 2 次主谓不一致。<br><br>注意：你后面紧跟的 <b>vehicles</b> 是复数，很容易被它带跑——英文的谓语只看<b>主语中心词</b>，不看紧挨着的名词。",
+      "src": "年产量已高达……",
+      "srcEn": "output has reached ..."
+    },
+    "e6": {
+      "type": "collocation",
+      "bad": "reached to millions",
+      "good": "reached nearly ten million units",
+      "why": "<b>reach</b> 是及物动词，直接接宾语，<b>不加 to</b>：reach ten million。<b>reach to</b> 只在「伸手够到某物」这种物理动作里偶尔出现，不能用于数量。<br><br>另外「近千万辆」要落实 <b>nearly</b> 和量词 <b>units</b>，光写 millions 信息不够。",
+      "src": "已高达近千万辆",
+      "srcEn": "has reached nearly ten million units"
+    },
+    "e7": {
+      "type": "word",
+      "bad": "millions",
+      "good": "nearly ten million units",
+      "why": "<b>millions</b> 是模糊的「数以百万计」，原文是精确的「近千万辆」。数字译偏在评分里属于信息失真，比语法小错更影响「准确表达原文意思」这一条。<br><br>换算要记牢：中文的「万」英文没有对应单位，1000 万 = <b>ten million</b>；「亿」= hundred million。",
+      "src": "近千万辆",
+      "srcEn": "nearly ten million units"
+    },
+    "e8": {
+      "type": "collocation",
+      "bad": "taking up the market percentage",
+      "good": "accounting for over 60% of the global market share",
+      "why": "<b>take up</b> 表示「占据（时间、空间）」，比如 take up too much space，不能用来表示占多少比例。表示占比要用 <b>account for</b> 或 <b>make up</b>。<br><br>另外两个问题：① <b>percentage</b>（百分比）≠ <b>share</b>（份额），原文是「市场份额」；② 原文的「<b>全球</b>」漏了，global 不能省。",
+      "src": "占全球市场份额超过60%",
+      "srcEn": "accounting for over 60% of the global market share"
+    },
+    "e9": {
+      "type": "logic",
+      "bad": "which breaks the record a constantly",
+      "good": "with exports constantly hitting new highs",
+      "why": "这里有两层问题。<br><br><b>① 信息挂错了位置</b>：原文「出口量不断创出新高」是独立的一个信息点，主语是<b>出口量</b>。你用 which 把「创纪录」挂到了「市场份额」上，等于说「60% 的份额创了纪录」，意思跑偏，而且「出口量」这个信息整个丢了。英文里这种附带信息用 <b>with + 名词 + 现在分词</b> 最省事：with exports constantly hitting new highs。<br><br><b>② 冠词误加</b>：constantly 是副词，前面不能加 a。",
+      "src": "出口量不断创出新高",
+      "srcEn": "with exports continuously hitting new highs"
+    },
+    "e10": {
+      "type": "spelling",
+      "bad": "The Chinese goverment",
+      "good": "the Chinese government",
+      "why": "<b>government</b> 中间是 <b>n</b> 不是 m：govern + ment。<br><br>你在这里把整个主语划掉了，说明你察觉到句子结构不顺——这个判断是对的。但下一句又把 goverment 原样写了一遍，等于错误没改掉。划改的时候要顺手把拼写也改对。",
+      "src": "中国政府",
+      "srcEn": "the Chinese government"
+    },
+    "e11": {
+      "type": "collocation",
+      "bad": "By enhancing the invests to it",
+      "good": "By increasing capital investment",
+      "why": "三个问题叠在一起：<br><br><b>① enhance 的搭配</b>：enhance 后面接抽象名词（efficiency / competitiveness / quality），不接 investment，更不能接 the invests。<br><b>② invests 不是名词</b>：invest 是动词，名词是 <b>investment</b>（通常不可数，不加 s）。「加大投入」= increase investment。<br><b>③ to it 指代悬空</b>：it 指什么？前面没有先行词。中文的「加大资金投入」直接对应 <b>increase capital investment</b>，不需要代词。",
+      "src": "加大资金投入",
+      "srcEn": "increasing capital investment"
+    },
+    "e12": {
+      "type": "collocation",
+      "bad": "making the policies to lead",
+      "good": "providing policy guidance",
+      "why": "<b>make policies</b>（制定政策）勉强能说，但「政策引导」的固定说法是 <b>policy guidance</b>，动词用 <b>provide / offer</b>。<br><br><b>to lead</b> 是想直译「引导」，但 lead 作动词要带宾语（lead sb. to do），放在这里悬空。换成名词 guidance，一步到位。",
+      "src": "政策引导",
+      "srcEn": "providing policy guidance"
+    },
+    "e13": {
+      "type": "spelling",
+      "bad": "goverment",
+      "good": "government",
+      "why": "同一个词本篇错了两次，这次是漏了中间那个 n。<b>govern</b>（治理）+ <b>ment</b>（名词后缀）。<br><br>考场上如果拿不准，宁可写得慢一点：gov-ern-ment，三个音节对应三段字母。",
+      "src": "中国政府",
+      "srcEn": "the Chinese government"
+    },
+    "e14": {
+      "type": "grammar",
+      "bad": "the Chinese goverment encourage",
+      "good": "the Chinese government encourages",
+      "why": "主语 the government 是<b>单数</b>，一般现在时谓语要加 <b>-s</b>：encourages。本篇第 3 次主谓不一致。<br><br>还有个结构问题：句子以 <b>By + 动名词</b> 开头作方式状语，但这个状语和真正的主语隔了 40 多个词，读者要读到后半句才知道「谁在鼓励谁」，这叫主语悬垂。更好的处理是 <b>Through increased investment and policy guidance, the government has encouraged...</b>，让主语尽早出现。<br><br>小技巧：写完通读一遍，专门找每个句子的主语，看它是单数还是复数、谓语有没有带 s。这一条能救回 2–3 分。",
+      "src": "鼓励",
+      "srcEn": "encourages"
+    },
+    "e15": {
+      "type": "spelling",
+      "bad": "entre company",
+      "good": "enterprises",
+      "why": "<b>enterprise</b>（企业）拼成了 entre，中间丢了 -rpris-。这个长词记不住的时候，可以直接用更简单的 <b>NEV makers / NEV companies</b> 替代，别硬拼。<br><br>另外「新能源汽车企业」是泛指，该用<b>复数</b> enterprises，不是单数 company。",
+      "src": "新能源汽车企业",
+      "srcEn": "NEV enterprises"
+    },
+    "e16": {
+      "type": "collocation",
+      "bad": "develop the technology innovation",
+      "good": "carry out technological innovation",
+      "why": "中文说「进行技术创新」，英文固定搭配是 <b>carry out / conduct technological innovation</b>，innovation 不和 develop 搭配。<br><br>还有词性：<b>technology 是名词，technological 是形容词</b>，修饰 innovation 要用形容词 technological。这两个错叠在一起，是典型的「逐字翻译」。",
+      "src": "进行技术创新",
+      "srcEn": "carry out technological innovation"
+    },
+    "e17": {
+      "type": "word",
+      "bad": "enhance the competence of product production",
+      "good": "enhance their products' competitiveness",
+      "why": "<b>① competence ≠ competitiveness</b>：competence 是「（人的）能力、胜任度」，competitiveness 才是「竞争力」。原文说的是产品的市场竞争力。<br><b>② product production 语义重复</b>：产品 + 生产 摞在一起，中文里也没这个说法。<br><b>③ 结构太重</b>：英文习惯 <b>their products' competitiveness</b> 一个所有格解决，比 of 结构清爽得多。",
+      "src": "提高产品在市场上的竞争力",
+      "srcEn": "enhance their products' competitiveness in the market"
+    },
+    "e18": {
+      "type": "grammar",
+      "bad": "not only de improves",
+      "good": "not only improves",
+      "why": "<b>de</b> 是多余的，可能是原本想写 does 或 develop，改到一半没清干净。卷面上<b>任何没划掉的残留字母都会被当作错误</b>。<br><br>结构上 not only ... but also 后面要接<b>平行成分</b>：not only improves ... but also makes ...，两个都是第三人称单数谓语才对。",
+      "src": "不仅推动……",
+      "srcEn": "not only boosts ... but also makes ..."
+    },
+    "e19": {
+      "type": "word",
+      "bad": "the economic",
+      "good": "the economy / economic growth",
+      "why": "<b>economic 是形容词</b>（经济的），不能当名词用。「经济发展」有两种写法：<b>economic growth</b>（经济增长）或 <b>the economy</b>（经济体）。你写的 the economic = 「那个经济的」，缺了中心名词。<br><br>原文「国内经济发展」的标准译法：<b>domestic economic growth</b>。",
+      "src": "国内经济发展",
+      "srcEn": "domestic economic growth"
+    },
+    "e20": {
+      "type": "word",
+      "bad": "the global new energy",
+      "good": "global new energy",
+      "why": "这里泛指「全球新能源（利用）」，不需要定冠词 the。英文里泛指不可数概念时用零冠词：global new energy utilization。<br><br>语序上 global 修饰 new energy，写成 global new energy utilization 比 the utilization of the global new energy 更简洁。",
+      "src": "全球新能源利用",
+      "srcEn": "global new energy utilization"
+    },
+    "e21": {
+      "type": "word",
+      "bad": "the environmental conservation",
+      "good": "environmental protection",
+      "why": "固定搭配是 <b>environmental protection</b>（环境保护）。<b>conservation</b> 侧重「对自然资源、文物的保护与节约」，如 wildlife conservation、energy conservation，和中文「环境保护」这个固定说法不完全对应。<br><br>另外这里泛指，不加 the。这个词是四级环保类话题的高频词，记 protection 就够用。",
+      "src": "环境保护",
+      "srcEn": "environmental protection"
+    }
+  },
+  "transcript": [
+    "In recent years, the Chinese new energy vehicle industry",
+    "<del>develop have</del> developeds repidly. For now, the productivity of",
+    "the Chinese new energy vehicles have reached to millions,",
+    "taking up the market percentage over 60%, which breaks the",
+    "record a constantly. <del>The Chinese goverment</del> By enhancing the",
+    "invests to it and making the policies to lead, the Chinese",
+    "goverment encourage new energy entre company to develop the",
+    "technology innovation and enhance the competence of produc-",
+    "tion in the market. The development of the Chinese",
+    "new energy vehicle industry not only de improves the development",
+    "of the economic in China, but also makes a great contribution",
+    "to the utilization of the global new energy and the environmental",
+    "conservation."
+  ],
+  "method": {
+    "intro": "四级翻译只靠两条命：<b>单词语法不出硬错</b>、<b>内容别跑题</b>。两条做到就进 <b>11 分档（10–12 分）</b>，折 710 分制约 <b>90 分以上</b>。<br><br>11 分档的官方原文是「基本表达原文意思，结构较清晰，有少量语言错误」——<b>它没有任何关于词汇难度的要求</b>。所以不会写的词一律换掉，宁可朴素，不要硬拼。下面的三招按顺序用，能解决考场上九成的「写不出来」。",
+    "tricks": [
+      {
+        "title": "用上位词替代",
+        "desc": "找一个能<b>包住</b>它、而且你一定会写的词。形容词只分褒贬（good / bad），人一律 people，物一律 something。<b>这招只用于个别词</b>——满篇 people、something 会被看出糊弄。",
+        "rows": [
+          ["匠人 craftsman", "workers"],
+          ["可观的经济效益", "bring much money"],
+          ["宝贵的经验", "much experience"],
+          ["文化遗产 cultural heritage", "old culture"],
+          ["政策引导 policy guidance", "good laws"],
+          ["技术创新 innovation", "new technology"],
+          ["旅游景点 tourist attraction", "a place"],
+          ["高楼大厦 skyscrapers", "many buildings"],
+          ["多元化的需求", "different needs"]
+        ]
+      },
+      {
+        "title": "用会写的词把它解释出来",
+        "desc": "把一个词变成一句话。<b>约七成的情况靠这一招</b>——只要意思到，语法对，阅卷就给分。",
+        "rows": [
+          ["京杭大运河", "the river from Beijing to Hangzhou"],
+          ["高度重视民营经济的发展", "think the development of private economy is important"],
+          ["满足多元化的服务需求", "meet the different needs of people"],
+          ["井冈山位于江西和湖南的边界", "Jinggangshan is between Jiangxi Province and Hunan Province"],
+          ["水稻抗旱抗病能力增强", "rice is not afraid of drought and diseases"],
+          ["欣赏莫高窟的艺术经典", "see the beauty of Mogao"]
+        ]
+      },
+      {
+        "title": "分大词 / 小词（最后保底）",
+        "desc": "<b>大词</b>＝主谓宾主干上的词（含从句谓语），必须写出来，不会就写个意思接近的、语法通的，<b>绝不空着</b>。<br><b>小词</b>＝定语、状语等修饰成分，不会就当作没看见，<b>直接删</b>。<br>整句写太短会被看出少译，可以补个模糊的 <code>according to some ideas</code> 撑长度。",
+        "rows": [
+          ["加强森林资源保护（不会「加强」）", "has protected the forest"],
+          ["加大污染治理的力度", "has tried to control pollution"],
+          ["适应不同的气候和土壤条件（不会「土壤」）", "can live well in different climate conditions"],
+          ["按照主题线路漫步在大街小巷（不会「主题线路」）", "walk on different roads and streets"]
+        ]
+      }
+    ],
+    "splits": [
+      {
+        "zh": "民营企业核心竞争力的增强为中国经济的高质量发展提供了有力支撑。",
+        "en": [
+          "Private companies are developing faster and faster.",
+          "As a result, they support the development of Chinese economy a lot."
+        ],
+        "note": "拆主干：主语是「增强」、谓语是「提供」、宾语是「支撑」；「民营企业核心竞争力」是定语，「为中国经济…发展」是状语。定语状语先全扔掉，主干单独成句。<b>私营企业</b>＝private companies；<b>中国经济的</b>＝Chinese economy，不是 China economy。"
+      },
+      {
+        "zh": "当我进来的时候已经很疲惫了，我看见一个看起来特别像大雁的爷爷被一群人围着，像鸭子一样在跳舞。",
+        "en": [
+          "I came in and I felt tired.",
+          "Then I saw a grandpa.",
+          "He looked like a Dayan.",
+          "He was in the center of many people.",
+          "At the same time, he was dancing like a duck."
+        ],
+        "note": "一句话里有时间状语从句、定语从句、两个状语——全部拆开，一句只说一件事。拆完每句都是初一水平，主谓宾清清楚楚。"
+      }
+    ],
+    "steps": [
+      { "title": "划主干", "desc": "通读中文，逐句划出<b>主谓宾</b>和修饰成分。修饰成分先当它不存在。" },
+      { "title": "主干先译", "desc": "每个主干写一个短句。遇到不会的词：上位词 → 解释 → 大词硬写、小词删。" },
+      { "title": "长句拆开", "desc": "一句中文里有两套主谓、两个以上动作 → 拆成 2–3 个简单句。" },
+      { "title": "补逻辑词", "desc": "句间用 and / but / so / also。<b>不确定是因果就别用 as a result</b>，那项「结构清晰」才拿得到。" },
+      { "title": "最后三查", "desc": "① 动词形式（时态 / 三单 / 被动）② 名词单复数 ③ 专有名词首字母大写（Beijing / Jiangxi Province）。" }
+    ]
+  },
+  "downgrades": [
+    { "from": "has developed rapidly", "to": "grows very fast", "why": "完成时改一般现在时，副词短语兜底；时态不会错，意思不差" },
+    { "from": "the annual output", "to": "makes ... every year", "why": "名词短语变动宾结构，annual 用 every year 落地" },
+    { "from": "accounting for over 60% of the global market share", "to": "take over 60% of the world market", "why": "分词状语改独立小句；global→world，share→market" },
+    { "from": "with exports continuously hitting new highs", "to": "sells more and more of them to other countries", "why": "独立结构改主谓句；这是全篇最值得降级的一句" },
+    { "from": "nearly ten million units", "to": "nearly 10 million ... cars", "why": "units 换成具体名词 cars，读者更好懂" },
+    { "from": "increase capital investment", "to": "gives more money", "why": "抽象名词换最基础的 give + more" },
+    { "from": "provide policy guidance", "to": "makes policies", "why": "guidance 记不住就用 policies，动词用 make" },
+    { "from": "carry out technological innovation", "to": "try new ways", "why": "固定搭配整个换掉，用 try + new ways 表达同一动作" },
+    { "from": "enhance their products' competitiveness", "to": "make better products / sell better", "why": "competitiveness 是高频难词，拆成「做得更好 / 卖得更好」" },
+    { "from": "boost domestic economic growth", "to": "helps China's economy grow", "why": "boost→help，domestic→China's，全用初中词" },
+    { "from": "environmental protection", "to": "protect the environment", "why": "名词短语转动宾，避开 environmental 的拼写风险" }
+  ],
+  "tips": [
+    {
+      "title": "主谓一致",
+      "desc": "<code>industry has</code>、<code>output has</code>、<code>government encourages</code>。三单漏了三次，是这篇最扎眼的错。"
+    },
+    {
+      "title": "词性分不清",
+      "desc": "<code>economic</code> 是形容词，不能当「经济」这个名词用（应为 the economy 或 economic growth）；<code>competence</code> 也不是「竞争力」。形容词、名词混着用，是最容易被一眼看穿的错。"
+    },
+    {
+      "title": "搭配靠直译",
+      "desc": "<code>take up the percentage</code>、<code>enhance the invests</code>、<code>develop the innovation</code>、<code>make policies to lead</code>——四个都是中文硬翻。搭配是四级翻译的第一扣分点。"
+    },
+    {
+      "title": "「创新高」挂错主语",
+      "desc": "原文说的是<b>出口量</b>不断创出新高，你写成「市场份额创纪录」，而且「出口量」整句丢了。"
+    },
+    {
+      "title": "拼写细节",
+      "desc": "<code>rapidly</code>、<code>government</code>（两处）、<code>enterprise</code>。都是高频词，写成这样白丢分。"
+    }
+  ],
+  "collocations": [
+    ["has developed rapidly", "发展迅速（完成时 + 副词）"],
+    ["annual output / production", "年产量"],
+    ["reach nearly ten million units", "达到近千万辆"],
+    ["account for ... of the market share", "占……市场份额"],
+    ["hit / set new highs", "创出新高"],
+    ["increase capital investment", "加大资金投入"],
+    ["provide policy guidance", "政策引导"],
+    ["carry out technological innovation", "进行技术创新"],
+    ["enhance competitiveness", "提高竞争力"],
+    ["boost domestic economic growth", "推动国内经济发展"],
+    ["make positive contributions to", "为……做出积极贡献"],
+    ["environmental protection", "环境保护（不是 conservation）"]
+  ],
+  "rewrite": {
+    "bad": "In recent years, the Chinese new energy vehicle industry <span class=\"del\">develop have developeds repidly</span>. <span class=\"del\">For now</span>, the <span class=\"del\">productivity</span> of the Chinese new energy vehicles <span class=\"del\">have reached to millions</span>, <span class=\"del\">taking up the market percentage</span> over 60%, <span class=\"del\">which breaks the record a constantly</span>. By <span class=\"del\">enhancing the invests to it</span> and <span class=\"del\">making the policies to lead</span>, the Chinese <span class=\"del\">goverment encourage new energy entre company</span> to <span class=\"del\">develop the technology innovation</span> and <span class=\"del\">enhance the competence of product production</span> in the market. The development of the Chinese new energy vehicle industry not only <span class=\"del\">de improves the development of the economic in China</span>, but also makes a great contribution to the utilization of the <span class=\"del\">global new energy and the environmental conservation</span>.",
+    "good": "In recent years, the Chinese new energy vehicle industry <span class=\"ins\">has developed rapidly</span>. <span class=\"ins\">At present</span>, the <span class=\"ins\">annual output</span> of Chinese new energy vehicles <span class=\"ins\">has reached nearly ten million units</span>, <span class=\"ins\">accounting for over 60% of the global market share</span>, <span class=\"ins\">with exports constantly hitting new highs</span>. By <span class=\"ins\">increasing capital investment</span> and <span class=\"ins\">providing policy guidance</span>, the Chinese <span class=\"ins\">government encourages new energy vehicle enterprises</span> to <span class=\"ins\">carry out technological innovation</span> and <span class=\"ins\">enhance their products' competitiveness</span> in the market. The development of the Chinese new energy vehicle industry not only <span class=\"ins\">boosts domestic economic growth</span>, but also makes a great contribution to the utilization of <span class=\"ins\">global new energy and environmental protection</span>."
+  }
+}
